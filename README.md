@@ -8,7 +8,7 @@ The professor rating data was collected from ratemyprofessor.com with code modif
 
 `SID = 1100`
 
-The SID can be obtained from the URL of the school's ratemyprofessor page (eg. https://www.ratemyprofessors.com/campusRatings.jsp?**sid=1100**).
+The SID can be obtained from the URL of the school's ratemyprofessor page (eg. [https://www.ratemyprofessors.com/campusRatings.jsp?**sid=1100**](https://www.ratemyprofessors.com/campusRatings.jsp?sid=1100)).
 
 ### Salary Data
 The salary data was collected from **PUT SALARY DATA LINK HERE**.
