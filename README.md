@@ -1,6 +1,7 @@
 # UF Ratemyprofessor/Salary Analysis
 
 ## Project Purpose
+The purpose of this project was to determine if there was any relationship between the salaries of lecturing professors and student's approval of their teaching. See the [github pages](PUT GITHUB PAGES LINK HERE) for results and more information
 
 ## Data Collection
 ### Rating Data
