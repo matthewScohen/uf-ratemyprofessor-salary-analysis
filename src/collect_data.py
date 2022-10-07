@@ -41,14 +41,14 @@ CSV_COLUMNS = [
             "usefulGrouping",
         ]
 
-def scrape_and_save_professor_data(fname="../professors.pickle"):
+def scrape_and_save_professor_data(fname="../data/professors.pickle"):
     uf = RateMyProfApi(school_id = SID)
     uf_professors = uf.professors
 
     with open(fname, "wb") as handle:
         pickle.dump(uf_professors, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-def load_data(fname="../professors.pickle"):
+def load_data(fname="../data/professors.pickle"):
     with open(fname, 'rb') as handle:
         return pickle.load(handle)
 
@@ -101,7 +101,7 @@ def main():
     uf_professors = load_data()
 
     # Write professor reviews to CSV file
-    with open("../professor_reviews.csv", "w") as csvfile:
+    with open("../data/professor_reviews.csv", "w") as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=CSV_COLUMNS)
         writer.writeheader()
 
