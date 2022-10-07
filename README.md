@@ -12,4 +12,4 @@ The professor rating data was collected from ratemyprofessor.com with the help o
 The SID can be obtained from the URL of the school's ratemyprofessor page (eg. [https://www.ratemyprofessors.com/campusRatings.jsp?**sid=1100**](https://www.ratemyprofessors.com/campusRatings.jsp?sid=1100)).
 
 ### Salary Data
-The salary data was collected from **PUT SALARY DATA LINK HERE**.
+The salary and employment data was collected from [here](https://prod.flbog.net:4445/pls/apex/f?p=140:1) and [here](https://www.floridahasarighttoknow.myflorida.com/search_state_payroll).
