@@ -67,7 +67,8 @@ def main():
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--no-sandbox")
     homedir = os.path.expanduser("~")
-    webdriver_service = Service(f"{homedir}/chrome/chromedriver") ### Change this line to point to your chormdriver install
+    ### Change the line below to point to your chormdriver install ###
+    webdriver_service = Service(f"{homedir}/chrome/chromedriver") 
     CSV_COLUMNS = [
         "Professor",
         "Term",
