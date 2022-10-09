@@ -12,6 +12,7 @@ from string import ascii_lowercase
 import csv
 import pickle
 
+# These headers need to be part of get and post requests made to the gator eval pages. I'm not sure why or if you need all of them.
 REQUEST_HEADERS = { "Accept" : "application/json, text/javascript, */*; q=0.01",
                 "Accept-Encoding" : "gzip, deflate, br",
                 "Accept-Language" : "en-US,en;q=0.9",
