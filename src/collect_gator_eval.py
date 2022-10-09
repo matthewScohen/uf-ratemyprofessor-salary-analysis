@@ -36,6 +36,8 @@ def generate_professor_id_set():
     ### This function makes requests to the gator evals website and records the key used to query each professor.
     ### The keys are stored in a set and then saved to a pickle file.
     professor_id_set = set()
+    # The website only lets you search for professors using 2+ characters in the search so we search all
+    # combinations of 2 letters to get all professor ids.
     two_letter_combos = (''.join(i) for i in product(ascii_lowercase, ascii_lowercase))
     keys_done = 0
     total_keys = 26*26
