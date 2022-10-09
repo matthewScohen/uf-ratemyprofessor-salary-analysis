@@ -32,7 +32,8 @@ REQUEST_HEADERS = { "Accept" : "application/json, text/javascript, */*; q=0.01",
                 }
 
 def generate_professor_id_set():
-    # Get professor key list
+    ### This function makes requests to the gator evals website and records the key used to query each professor.
+    ### The keys are stored in a set and then saved to a pickle file.
     professor_id_set = set()
     two_letter_combos = (''.join(i) for i in product(ascii_lowercase, ascii_lowercase))
     keys_done = 0
@@ -48,7 +49,7 @@ def generate_professor_id_set():
         print(f"{keys_done/total_keys:.2%}")
     
     # Save data
-    with open("professor_eval_ids", "wb") as handle:
+    with open("professor_eval_ids.pickle", "wb") as handle:
         pickle.dump(professor_id_set, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 def main():
@@ -65,7 +66,7 @@ def main():
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--no-sandbox")
     homedir = os.path.expanduser("~")
-    webdriver_service = Service(f"{homedir}/chrome/chromedriver")
+    webdriver_service = Service(f"{homedir}/chrome/chromedriver") ### Change this line to point to your chormdriver install
     CSV_COLUMNS = [
         "Professor",
         "Term",
@@ -78,7 +79,7 @@ def main():
         "5",
     ]
 
-    # Selenium
+    # Create browser and start gathering data
     browser = webdriver.Chrome(service=webdriver_service, options=chrome_options)
     professors_recorded = 0
     professors_to_record = len(professor_id_set)
@@ -87,8 +88,9 @@ def main():
         writer = csv.DictWriter(csvfile, fieldnames=CSV_COLUMNS)
         writer.writeheader()
         print(f"Getting eval data...")
+        # Navigate to each professor's page, each professor has a page with a different id and a table of evals.
+        # Each section the professor has ever taught is a different row in the eval table.
         for professor_id in professor_id_set:
-            # Navigate professor page
             try:
                 browser.get(f"https://evaluations.ufl.edu/results/instructor.aspx?ik={professor_id}")
                 # Get list of responses
@@ -96,16 +98,20 @@ def main():
             except Exception as e:
                 print(f"Error getting data for professor {professor_id}: {e}")
 
-            # Get all eval tables
+            # Get urls of eval data from each section in the table. Each professor's page has a table with "view" buttons and each "view" button makes a request to
+            # retreive a table that has the eval information for that class section. The url to get the eval data consists of the
+            # section number, professor id, and term.
             table_urls = list()
             for i, value in enumerate(cells):
                 try:
-                    num_1 = cells[(7*i+1)].text[0:5]
-                    num_2 = cells[(7*i+3)].text
-                    table_urls.append(f"https://evaluations.ufl.edu/results/Instructor.aspx/GetEvaluation?e={num_1}_{professor_id}_{num_2}")
+                    # The term/section_number is the 1st/3rd item in each row and each row has 7 items in it
+                    term = cells[(7*i+1)].text[0:5]
+                    section_number = cells[(7*i+3)].text
+                    table_urls.append(f"https://evaluations.ufl.edu/results/Instructor.aspx/GetEvaluation?e={term}_{professor_id}_{section_number}")
                 except IndexError:
                     break
             
+            # Make a request to the url of each section and write the evaluation data to a spread sheet.
             for url in table_urls:
                 try:
                     eval_response = requests.post(url, headers=REQUEST_HEADERS)
@@ -126,6 +132,7 @@ def main():
                         writer.writerow(csv_row)
                 except Exception as e:
                     print(f"Error getting url {url}: {e}")
+            # Output progress
             professors_recorded += 1
             print(f"{professors_recorded/professors_to_record:.3%}")
         browser.close()
