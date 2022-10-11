@@ -62,7 +62,7 @@ def main():
 
     # Load professor ids
     professor_id_set = set()
-    with open("professor_eval_ids", 'rb') as handle:
+    with open("professor_eval_ids.pickle", 'rb') as handle:
         professor_id_set = pickle.load(handle)
 
     # Selenium setup
