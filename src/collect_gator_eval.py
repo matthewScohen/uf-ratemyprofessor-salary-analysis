@@ -11,6 +11,7 @@ from itertools import product
 from string import ascii_lowercase
 import csv
 import pickle
+import lxml.html as lh
 
 # These headers need to be part of get and post requests made to the gator eval pages. I'm not sure why or if you need all of them.
 REQUEST_HEADERS = { "Accept" : "application/json, text/javascript, */*; q=0.01",
@@ -73,8 +74,17 @@ def main():
     webdriver_service = Service(f"{homedir}/chrome/chromedriver") 
     CSV_COLUMNS = [
         "Professor",
+        "College Code",
+        "College Name",
+        "Department Code",
+        "Department Name",
+        "Section",
+        "Instructor Title",
         "Term",
         "Course",
+        "Enrolled",
+        "Responded",
+        "Response Rate",
         "Question",
         "1",
         "2",
@@ -95,26 +105,29 @@ def main():
         # Navigate to each professor's page, each professor has a page with a different id and a table of evals.
         # Each section the professor has ever taught is a different row in the eval table.
         for professor_id in professor_id_set:
+            section_cells = list()
             try:
-                browser.get(f"https://evaluations.ufl.edu/results/instructor.aspx?ik={professor_id}")
-                # Get list of responses
-                cells = browser.find_elements(By.TAG_NAME, "td")
+                page = requests.get(f"https://evaluations.ufl.edu/results/instructor.aspx?ik={professor_id}")
+                doc = lh.fromstring(page.content)
+                # Get all data cells from the table of sections the professor has taught
+                section_cells = doc.xpath('//td')
             except Exception as e:
                 print(f"Error getting data for professor {professor_id}: {e}")
 
-            # Get urls of eval data from each section in the table. Each professor's page has a table with "view" buttons and each "view" button makes a request to
-            # retreive a table that has the eval information for that class section. The url to get the eval data consists of the
-            # section number, professor id, and term.
+            # Get urls of eval data for each section in the table. Each professor's page has a table with "view" buttons and each "view" button makes a request to
+            # retreive a table that has the eval information for that class section. The url to get the eval data consists of the section number, professor id, and term.
             table_urls = list()
-            for i, value in enumerate(cells):
+            for i, value in enumerate(section_cells):
                 try:
                     # The term/section_number is the 1st/3rd item in each row and each row has 7 items in it
-                    term = cells[(7*i+1)].text[0:5]
-                    section_number = cells[(7*i+3)].text
+                    term = section_cells[(7*i+1)].text[0:5]
+                    section_number = section_cells[(7*i+3)].text
+                    # Sometimes the section number is actually a list of section numbers and the url is the section numbers separated by dashes (-)
+                    section_number = section_number.replace(" ", "-")
+                    section_number = section_number.replace(",", "")
                     table_urls.append(f"https://evaluations.ufl.edu/results/Instructor.aspx/GetEvaluation?e={term}_{professor_id}_{section_number}")
                 except IndexError:
                     break
-            
             # Make a request to the url of each section and write the evaluation data to a spread sheet.
             for url in table_urls:
                 try:
@@ -124,8 +137,17 @@ def main():
                     for i, question in enumerate(eval_data["Questions"]):
                         csv_row = {
                             "Professor" : eval_data["InstructorName"],
+                            "College Code" : eval_data["CollegeCode"],
+                            "College Name" : eval_data["CollegeName"],
+                            "Department Code" : eval_data["DepartmentCode"],
+                            "Department Name" : eval_data["DepartmentName"],
+                            "Section" : eval_data["Section"],
+                            "Instructor Title" : eval_data["InstructorTitle"],
                             "Term" : eval_data["TermLit"],
                             "Course" : eval_data["Course"],
+                            "Enrolled" : eval_data["Enrolled"],
+                            "Responded" : eval_data["Responded"],
+                            "Response Rate" : eval_data["ResponseRate"],
                             "Question" : eval_data["Questions"][i]["Text"],
                             "1" : eval_data['Questions'][i]["Ones"],
                             "2" : eval_data['Questions'][i]["Twos"],
