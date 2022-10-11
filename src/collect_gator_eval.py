@@ -1,9 +1,3 @@
-import os.path
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
 import time
 import requests
 import json
@@ -65,13 +59,6 @@ def main():
     with open("professor_eval_ids.pickle", 'rb') as handle:
         professor_id_set = pickle.load(handle)
 
-    # Selenium setup
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--no-sandbox")
-    homedir = os.path.expanduser("~")
-    ### Change the line below to point to your chormdriver install ###
-    webdriver_service = Service(f"{homedir}/chrome/chromedriver") 
     CSV_COLUMNS = [
         "Professor",
         "College Code",
@@ -92,9 +79,6 @@ def main():
         "4",
         "5",
     ]
-
-    # Create browser and start gathering data
-    browser = webdriver.Chrome(service=webdriver_service, options=chrome_options)
     professors_recorded = 0
     professors_to_record = len(professor_id_set)
 
@@ -161,7 +145,6 @@ def main():
             # Output progress
             professors_recorded += 1
             print(f"{professors_recorded/professors_to_record:.3%}")
-        browser.close()
 
 if __name__ == "__main__":
     main()
