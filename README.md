@@ -3,9 +3,9 @@ The purpose of this project was to determine if there was any relationship betwe
 
 # Data Collection
 ## Ratemyprofessor Data
-The Ratemyprofessorg data was collected from ratemyprofessor.com with the help of code modified from [this repository](https://github.com/tisuela/ratemyprof-api). 
+The Ratemyprofessorg data was collected from ratemyprofessor.com with the help of code modified from [this repository](https://github.com/tisuela/ratemyprof-api). The data is stored in `data/professor_reviews.csv` and `data/uf_professors.pickle` (A pickle of a python dict that contains the professor data).
 
-The `src/collect_data.py` script is used to generate a .pickle file that stores a dictionary of the professor data and a .csv file with their rating information. To use this script to collect data for a different school edit the SID at the top of collect_data.py. 
+The `src/collect_rmp_data.py` script is used to generate a .pickle file that stores a dictionary of the professor data and then creates a .csv file with the same data. To use this script to collect data for a different school edit the SID at the top of collect_data.py.
 
 `SID = 1100`
 
