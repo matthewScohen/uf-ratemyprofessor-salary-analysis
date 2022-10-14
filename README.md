@@ -14,7 +14,7 @@ The SID can be obtained from the URL of the school's ratemyprofessor page (eg. [
 ## Gator Eval Data
 The gator eval data is publically available from the [evaluations website](https://evaluations.ufl.edu/results/). We were unable to find anywhere with all of the data published in a single spreadsheet (as opposed to being able to query information from a database via a web app). The `collect_gator_eval.py` script was used to create `data/professor_evals.csv` which contains all of the data available from the evaluations website. It also creates `professor_eval_ids.pickle` which is a python set containing the unique ids of all professors in the evaluation database (eg https://evaluations.ufl.edu/results/instructor.aspx?ik=-1154288659 the id is -1154288659). 
 
-Each row in the csv represents response data from 1 of 8 questions available from the evaluation results website (ie each professor has many rows in the csv and each section is represented by 8 different rows). The csv is too big to publish to github but can be downloaded from [PUT LINK TO CSV DOWNLOAD HERE](link address).
+Each row in the csv represents response data from 1 of 8 questions available from the evaluation results website (ie each professor has many rows in the csv and each class section is represented by 8 different rows). The csv is too big to publish to github but can be downloaded from [PUT LINK TO CSV DOWNLOAD HERE](link address).
 
 ## Salary Data
 The salary and employment data was collected from [here](https://prod.flbog.net:4445/pls/apex/f?p=140:1) and [here](https://www.floridahasarighttoknow.myflorida.com/search_state_payroll).
