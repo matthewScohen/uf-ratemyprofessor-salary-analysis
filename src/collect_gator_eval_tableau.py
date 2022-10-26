@@ -44,7 +44,7 @@ for term in terms:
             df = pd.concat([df, wb.worksheets[0].data])
 
             professors_done += 1
-            print(f"Collecting data for {term}... {professors_done/len(professor_names):.2f}")
+            print(f"Collecting data for {term}... {professors_done/len(professor_names):.2f}%")
 
 with open("new_gator_eval_data.pickle", "wb") as handle:
         pickle.dump(df, handle, protocol=pickle.HIGHEST_PROTOCOL)
