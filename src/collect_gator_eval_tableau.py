@@ -7,7 +7,7 @@ url = "https://public.tableau.com/views/GatorEvalsFall2019toSpring2022PublicData
 ts = TS()
 df = pd.DataFrame()
 
-terms = ["Fall 2019", "Spring 2020"]
+terms = ["Fall 2019", "Spring 2020", "Summer 2020", "Fall 2020", "Spring 2021", "Summer 2021", "Fall 2021", "Spring 2022", "Summer 2022"]
 
 for term in terms:
     # We have to reload the workbook each time in order to reset the filters, there is probably a better way to do this but
