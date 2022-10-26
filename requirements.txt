@@ -1,3 +1,4 @@
 # These are the versions used to initially build the project. Other versions of these libraries may work as well.
 lxml==4.9.1
 requests==2.28.1
+TableauScraper==0.1.29
