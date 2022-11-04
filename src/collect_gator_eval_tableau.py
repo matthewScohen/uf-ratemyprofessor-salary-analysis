@@ -25,7 +25,7 @@ for term in terms:
         professor_names = filters[3]["values"][1:None] 
     else:
         professor_names = filters[3]["values"]
-        
+
     professors_done = 0
     uncollected_professors = [] # a list of professor's the script failed to collect data on
     for professor in professor_names:
@@ -36,7 +36,7 @@ for term in terms:
             try:
                 ts.loads(url)
                 attempts += 1
-            except Exception e:
+            except Exception as e:
                 print(f"error collecting {url}: {e}")
             else:
                 break
