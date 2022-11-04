@@ -46,6 +46,7 @@ for term in terms:
             print(f"data loaded for {professor}")
             workbook = ts.getWorkbook()
             ws = workbook.worksheets[0]
+            ws.setFilter("Term", term)
             wb = ws.setFilter("INSTRUCTOR_NAME", professor)
             # get courses
             filters = ws.getFilters()
