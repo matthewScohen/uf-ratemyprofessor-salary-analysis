@@ -28,7 +28,13 @@ for term in terms:
     professors_done = 0
     for professor in professor_names:
         # reset worksheet (see comment above)
-        ts.loads(url)
+        while True:
+            try:
+                ts.loads(url)
+            except Exception e:
+                print(f"error collecting {url}: {e}")
+            else:
+                break
         workbook = ts.getWorkbook()
         ws = workbook.worksheets[0]
         wb = ws.setFilter("INSTRUCTOR_NAME", professor)
