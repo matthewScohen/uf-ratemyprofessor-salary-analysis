@@ -40,6 +40,7 @@ for term in terms:
             except Exception as e:
                 print(f"error collecting {url}: {e}")
             else:
+                data_loaded = True
                 break
         if data_loaded:
             print(f"data loaded for {professor}")
