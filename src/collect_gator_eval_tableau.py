@@ -28,6 +28,7 @@ for term in terms:
 
     professors_done = 0
     uncollected_professors = [] # a list of professor's the script failed to collect data on
+    print(f"Starting collection of {term}")
     for professor in professor_names:
         # reset worksheet (see comment above)
         attempts = 0
@@ -41,6 +42,7 @@ for term in terms:
             else:
                 break
         if data_loaded:
+            print(f"data loaded for {professor}")
             workbook = ts.getWorkbook()
             ws = workbook.worksheets[0]
             wb = ws.setFilter("INSTRUCTOR_NAME", professor)
@@ -48,7 +50,8 @@ for term in terms:
             filters = ws.getFilters()
             courses = filters[1]["values"]
             # print(courses)
-            for course in courses:    
+            for course in courses:
+                print(f"collecting data for {professor} : {course}")    
                 wb = ws.setFilter("COMBINED_COURSE", course)
                 wb.worksheets[0].data["professor"] = professor
                 wb.worksheets[0].data["term"] = term
